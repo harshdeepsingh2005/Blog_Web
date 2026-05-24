@@ -27,7 +27,7 @@ app = FastAPI(
 # ── CORS middleware ────────────────────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS + ["https://blogify-objective.vercel.app"],
+    allow_origins=settings.CORS_ORIGINS + ["https://blogify-objective.vercel.app", "https://blogify-harsh.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
