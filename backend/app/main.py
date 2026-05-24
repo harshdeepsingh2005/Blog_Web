@@ -53,6 +53,17 @@ os.makedirs("uploads", exist_ok=True)
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 
+# Temporary route to seed production database remotely
+@app.post("/api/seed")
+def seed_database():
+    try:
+        from backend.seed import seed_db
+        seed_db()
+        return {"message": "Database seeded successfully!"}
+    except Exception as e:
+        import traceback
+        return {"error": str(e), "traceback": traceback.format_exc()}
+
 @app.get("/")
 def health_check():
     return {"status": "ok", "message": "Blogging Platform API is running"}
