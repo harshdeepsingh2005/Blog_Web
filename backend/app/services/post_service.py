@@ -37,7 +37,13 @@ def get_posts(
         query = query.filter(Post.category_id == category_id)
 
     if sort_by == "popular":
-        query = query.outerjoin(Like).group_by(Post.id).order_by(func.count(Like.id).desc())
+        likes_subq = (
+            db.query(func.count(Like.id))
+            .filter(Like.post_id == Post.id)
+            .correlate(Post)
+            .scalar_subquery()
+        )
+        query = query.order_by(likes_subq.desc(), Post.created_at.desc())
     else:
         query = query.order_by(Post.created_at.desc())
 
