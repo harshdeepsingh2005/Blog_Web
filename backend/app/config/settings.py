@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     BASE_URL: str = "http://localhost:8000"
     CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost:3000"]
 
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
-
+    # Use 'backend/.env' since we are running the app from the root directory
+    model_config = SettingsConfigDict(env_file="backend/.env", extra="ignore")
 
 settings = Settings()
