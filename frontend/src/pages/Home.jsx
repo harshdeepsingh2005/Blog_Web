@@ -7,7 +7,7 @@ import LoadingSkeleton from '../components/LoadingSkeleton';
 import { useDebounce } from '../hooks/useDebounce';
 import api from '../services/api';
 
-const CATEGORIES_ICONS = ['💻', '🤖', '⚙️', '🌿', '📚', '🔬', '🎨', '💼'];
+const CATEGORIES_ICONS = ['01.', '02.', '03.', '04.', '05.', '06.', '07.', '08.'];
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
@@ -23,11 +23,9 @@ export default function Home() {
   const page = parseInt(searchParams.get('page') || '1');
   const LIMIT = 9;
 
-  // Local state for the search input to allow debouncing
   const [searchTerm, setSearchTerm] = useState(search);
   const debouncedSearch = useDebounce(searchTerm, 500);
 
-  // Sync debounced search to URL params
   useEffect(() => {
     if (debouncedSearch !== search) {
       setParam('search', debouncedSearch);
@@ -51,7 +49,6 @@ export default function Home() {
           api.get('/categories'),
         ];
 
-        // Fetch trending if we're on the default view
         if (!search && !category && page === 1) {
           requests.push(api.get('/posts', { params: { sort_by: 'popular', limit: 3 } }));
         }
@@ -88,190 +85,217 @@ export default function Home() {
   const rest = posts.slice(1);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-bg dark:bg-bg-dark swiss-noise">
       {/* Hero */}
       {!search && !category && page === 1 && (
-        <section className="relative overflow-hidden bg-gradient-to-br from-accent-light via-bg to-terra-light dark:from-gray-900 dark:via-bg-dark dark:to-gray-800 py-20 px-6">
-          <div className="max-w-content mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <span className="badge-accent mb-4 inline-flex">
-                <Sparkles size={12} />
-                Premium Blogging Platform
-              </span>
-              <h1 className="font-serif text-4xl md:text-6xl font-bold text-text-primary dark:text-white mb-6 leading-tight">
-                Where great ideas <br />
-                <span className="text-gradient">find their voice</span>
-              </h1>
-              <p className="text-lg text-text-secondary dark:text-gray-400 max-w-xl mx-auto mb-8 leading-relaxed">
-                Discover thoughtful writing from passionate creators. Read, write, and connect with a community that values authentic expression.
-              </p>
-              <div className="flex flex-wrap gap-3 justify-center">
-                <Link to="/register" className="btn-primary flex items-center gap-2 text-base px-6 py-3">
-                  Start writing <ArrowRight size={16} />
-                </Link>
-                <button
-                  onClick={() => document.getElementById('posts-section')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="btn-secondary flex items-center gap-2 text-base px-6 py-3"
-                >
-                  <BookOpen size={16} /> Explore posts
-                </button>
+        <section className="border-b-4 border-text-primary dark:border-white swiss-grid-pattern bg-muted dark:bg-[#111]">
+          <div className="max-w-content mx-auto flex flex-col md:flex-row min-h-[70vh]">
+            <div className="flex-1 border-r-4 border-text-primary dark:border-white p-8 md:p-16 flex flex-col justify-center">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="flex items-center gap-4 mb-8">
+                  <span className="w-16 h-1 bg-accent"></span>
+                  <span className="font-bold text-accent tracking-widest uppercase text-sm">01. SYSTEM</span>
+                </div>
+                <h1 className="font-sans font-black text-6xl md:text-[8rem] leading-[0.85] text-text-primary dark:text-white uppercase tracking-tighter mb-8 break-words">
+                  OBJECTIVE<br/>
+                  <span className="text-accent">COMMUNICATION</span><br/>
+                  SYSTEM.
+                </h1>
+                <p className="text-xl md:text-2xl font-medium text-text-primary dark:text-white max-w-xl mb-12 leading-snug">
+                  WHERE GREAT IDEAS FIND THEIR VOICE. DISCOVER THOUGHTFUL WRITING FROM PASSIONATE CREATORS.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <Link to="/register" className="btn-primary">
+                    START WRITING <ArrowRight className="inline ml-2" size={20} />
+                  </Link>
+                  <button
+                    onClick={() => document.getElementById('posts-section')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="btn-secondary"
+                  >
+                    EXPLORE <BookOpen className="inline ml-2" size={20} />
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+            
+            <div className="md:w-[35%] relative hidden md:block">
+              {/* Geometric Composition */}
+              <div className="absolute inset-0 p-8 flex flex-col justify-between">
+                <div className="w-full h-1/3 border-4 border-text-primary dark:border-white swiss-dots bg-surface dark:bg-surface-dark mb-4 group hover:bg-accent transition-colors duration-150"></div>
+                <div className="flex gap-4 h-1/3 mb-4">
+                  <div className="w-1/2 h-full bg-text-primary dark:bg-white rounded-full flex items-center justify-center group">
+                    <div className="w-1/2 h-1/2 bg-bg dark:bg-bg-dark rounded-full group-hover:scale-0 transition-transform duration-300"></div>
+                  </div>
+                  <div className="w-1/2 h-full border-4 border-text-primary dark:border-white swiss-diagonal bg-accent"></div>
+                </div>
+                <div className="w-full h-1/3 bg-text-primary dark:bg-white flex items-end justify-end p-4">
+                  <span className="text-white dark:text-black font-black text-6xl tracking-tighter">1950.</span>
+                </div>
               </div>
-            </motion.div>
+            </div>
           </div>
-          {/* Decorative blobs */}
-          <div className="absolute -top-20 -right-20 w-80 h-80 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-terra/10 rounded-full blur-3xl pointer-events-none" />
         </section>
       )}
 
-      <div className="max-w-content mx-auto px-6 py-12" id="posts-section">
+      <div className="max-w-content mx-auto" id="posts-section">
         {/* Trending Section */}
         {!search && !category && page === 1 && trending.length > 0 && (
-          <section className="mb-16">
-            <div className="flex items-center gap-2 mb-6">
-              <TrendingUp size={20} className="text-accent" />
-              <h2 className="text-lg font-bold text-text-primary dark:text-white uppercase tracking-wide">Trending on Blogify</h2>
+          <section className="border-b-4 border-text-primary dark:border-white bg-surface dark:bg-surface-dark">
+            <div className="border-b-4 border-text-primary dark:border-white p-6 md:p-8 flex items-center gap-4 bg-muted dark:bg-[#111]">
+              <span className="font-black text-accent text-xl">02.</span>
+              <h2 className="text-2xl md:text-3xl font-black text-text-primary dark:text-white uppercase tracking-tighter">TRENDING NOW</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 divide-y-4 md:divide-y-0 md:divide-x-4 divide-text-primary dark:divide-white">
               {trending.map((post, i) => (
-                <div key={post.id} className="flex gap-4 items-start">
-                  <span className="text-4xl font-bold text-border dark:text-gray-700">0{i + 1}</span>
-                  <div className="flex-1">
-                    <Link to={`/posts/${post.id}`}>
-                      <h3 className="font-serif font-bold text-text-primary dark:text-white leading-snug hover:text-accent transition-colors line-clamp-2">
-                        {post.title}
-                      </h3>
-                    </Link>
-                    <Link to={`/profile/${post.author?.id}`} className="text-xs text-text-secondary dark:text-gray-400 mt-2 hover:text-accent flex items-center gap-1.5">
-                      {post.author?.avatar ? (
-                        <img src={post.author.avatar} alt="" className="w-5 h-5 rounded-full object-cover" />
-                      ) : (
-                        <div className="w-5 h-5 rounded-full bg-accent-light flex items-center justify-center">
-                          <span className="text-[10px] text-accent font-bold">{post.author?.username?.[0]?.toUpperCase()}</span>
-                        </div>
-                      )}
-                      {post.author?.username}
-                    </Link>
-                  </div>
+                <div key={post.id} className="p-8 group hover:bg-text-primary hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-150 cursor-pointer">
+                  <span className="text-6xl font-black text-text-primary/20 dark:text-white/20 group-hover:text-accent transition-colors mb-4 block">0{i + 1}</span>
+                  <Link to={`/posts/${post.id}`}>
+                    <h3 className="font-sans font-black text-2xl uppercase tracking-tighter leading-none mb-6">
+                      {post.title}
+                    </h3>
+                  </Link>
+                  <Link to={`/profile/${post.author?.id}`} className="text-sm font-bold uppercase tracking-widest flex items-center gap-3">
+                    {post.author?.avatar ? (
+                      <img src={post.author.avatar} alt="" className="w-8 h-8 rounded-none border-2 border-current object-cover" />
+                    ) : (
+                      <div className="w-8 h-8 rounded-none border-2 border-current flex items-center justify-center">
+                        <span className="text-lg">{post.author?.username?.[0]?.toUpperCase()}</span>
+                      </div>
+                    )}
+                    {post.author?.username}
+                  </Link>
                 </div>
               ))}
             </div>
           </section>
         )}
 
-        {/* Categories */}
-        <section className="mb-10">
-          <div className="flex items-center gap-2 mb-4">
-            <Flame size={18} className="text-terra" />
-            <h2 className="text-sm font-semibold text-text-secondary dark:text-gray-400 uppercase tracking-wide">Browse by topic</h2>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setParam('category', '')}
-              className={`badge text-sm px-4 py-1.5 rounded-full border transition-all ${!category ? 'bg-accent text-white border-accent' : 'bg-surface text-text-secondary border-border hover:border-accent hover:text-accent dark:bg-surface-dark dark:border-border-dark dark:text-gray-400'}`}
-            >
-              All
-            </button>
-            {categories.map((cat, i) => (
-              <button
-                key={cat.id}
-                onClick={() => setParam('category', cat.id)}
-                className={`badge text-sm px-4 py-1.5 rounded-full border transition-all ${category === String(cat.id) ? 'bg-accent text-white border-accent' : 'bg-surface text-text-secondary border-border hover:border-accent hover:text-accent dark:bg-surface-dark dark:border-border-dark dark:text-gray-400'}`}
-              >
-                {CATEGORIES_ICONS[i % CATEGORIES_ICONS.length]} {cat.name}
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {/* Search + Sort bar */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-10">
-          <input
-            type="text"
-            placeholder="Search articles..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="input flex-1"
-            id="search-input"
-          />
-          <div className="flex gap-2">
-            <button
-              onClick={() => setParam('sort', 'latest')}
-              className={`flex items-center gap-1.5 px-4 py-2.5 rounded-btn text-sm font-medium border transition-all ${sort === 'latest' ? 'bg-accent text-white border-accent' : 'btn-secondary'}`}
-            >
-              <BookOpen size={14} /> Latest
-            </button>
-            <button
-              onClick={() => setParam('sort', 'popular')}
-              className={`flex items-center gap-1.5 px-4 py-2.5 rounded-btn text-sm font-medium border transition-all ${sort === 'popular' ? 'bg-accent text-white border-accent' : 'btn-secondary'}`}
-            >
-              <TrendingUp size={14} /> Popular
-            </button>
-          </div>
-        </div>
-
-        {/* Posts grid */}
-        {loading ? (
-          <LoadingSkeleton type="card" count={6} />
-        ) : posts.length === 0 ? (
-          <div className="text-center py-20">
-            <BookOpen size={40} className="text-text-muted mx-auto mb-4" />
-            <p className="text-text-secondary dark:text-gray-400">No posts found. Try adjusting your filters.</p>
-          </div>
-        ) : (
-          <>
-            {/* Featured post */}
-            {featured && !search && !category && page === 1 && (
-              <div className="mb-8 border-t border-border dark:border-border-dark pt-8">
-                <div className="flex items-center gap-2 mb-4">
-                  <Sparkles size={16} className="text-accent" />
-                  <h2 className="text-sm font-semibold text-text-secondary dark:text-gray-400 uppercase tracking-wide">Featured</h2>
-                </div>
-                <BlogCard post={featured} featured />
+        <div className="flex flex-col md:flex-row">
+          {/* Main Content Area */}
+          <div className="flex-1 md:border-r-4 border-text-primary dark:border-white">
+            
+            {/* Toolbar (Search & Sort) */}
+            <div className="border-b-4 border-text-primary dark:border-white p-6 md:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 bg-muted dark:bg-[#111]">
+              <div className="flex items-center gap-4 w-full sm:w-auto flex-1">
+                <span className="font-black text-accent text-xl">03.</span>
+                <input
+                  type="text"
+                  placeholder="SEARCH ARTICLES..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="input w-full max-w-md bg-transparent border-b-4 border-text-primary dark:border-white px-0 py-2 text-xl font-bold uppercase tracking-widest focus:border-accent"
+                  id="search-input"
+                />
               </div>
-            )}
-
-            {/* Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {(search || category || page > 1 ? posts : rest).map((post) => (
-                <BlogCard key={post.id} post={post} />
-              ))}
+              <div className="flex gap-4 w-full sm:w-auto shrink-0">
+                <button
+                  onClick={() => setParam('sort', 'latest')}
+                  className={`px-6 py-3 font-bold uppercase tracking-widest border-2 ${sort === 'latest' ? 'bg-text-primary text-white border-text-primary dark:bg-white dark:text-black dark:border-white' : 'border-text-primary text-text-primary dark:border-white dark:text-white'}`}
+                >
+                  LATEST
+                </button>
+                <button
+                  onClick={() => setParam('sort', 'popular')}
+                  className={`px-6 py-3 font-bold uppercase tracking-widest border-2 ${sort === 'popular' ? 'bg-text-primary text-white border-text-primary dark:bg-white dark:text-black dark:border-white' : 'border-text-primary text-text-primary dark:border-white dark:text-white'}`}
+                >
+                  POPULAR
+                </button>
+              </div>
             </div>
 
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-2 mt-12">
-                <button
-                  onClick={() => setParam('page', page - 1)}
-                  disabled={page <= 1}
-                  className="btn-secondary disabled:opacity-40"
-                >
-                  Previous
-                </button>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                  <button
-                    key={p}
-                    onClick={() => setParam('page', p)}
-                    className={`w-9 h-9 rounded-btn text-sm font-medium ${p === page ? 'bg-accent text-white' : 'btn-secondary'}`}
-                  >
-                    {p}
-                  </button>
-                ))}
-                <button
-                  onClick={() => setParam('page', page + 1)}
-                  disabled={page >= totalPages}
-                  className="btn-secondary disabled:opacity-40"
-                >
-                  Next
-                </button>
+            {/* Posts grid */}
+            {loading ? (
+              <div className="p-8">
+                <LoadingSkeleton type="card" count={4} />
+              </div>
+            ) : posts.length === 0 ? (
+              <div className="text-center p-24 bg-surface dark:bg-surface-dark border-b-4 border-text-primary dark:border-white">
+                <h2 className="text-4xl font-black uppercase tracking-tighter">NO RESULTS</h2>
+              </div>
+            ) : (
+              <div className="divide-y-4 divide-text-primary dark:border-white">
+                {/* Featured post */}
+                {featured && !search && !category && page === 1 && (
+                  <div className="border-b-4 border-text-primary dark:border-white">
+                    <div className="p-4 bg-accent text-white font-bold tracking-widest uppercase border-b-4 border-text-primary dark:border-white">
+                      FEATURED ARTICLE
+                    </div>
+                    <BlogCard post={featured} featured />
+                  </div>
+                )}
+
+                {/* Standard Grid */}
+                <div className="grid grid-cols-1 xl:grid-cols-2">
+                  {(search || category || page > 1 ? posts : rest).map((post, idx) => (
+                    <div key={post.id} className={idx % 2 === 0 ? "xl:border-r-4 border-text-primary dark:border-white" : ""}>
+                      <BlogCard post={post} />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="p-8 flex justify-center items-center gap-4 bg-surface dark:bg-surface-dark">
+                    <button
+                      onClick={() => setParam('page', page - 1)}
+                      disabled={page <= 1}
+                      className="btn-secondary disabled:opacity-40"
+                    >
+                      PREV
+                    </button>
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                      <button
+                        key={p}
+                        onClick={() => setParam('page', p)}
+                        className={`w-12 h-12 flex items-center justify-center font-bold text-lg border-2 border-text-primary dark:border-white ${p === page ? 'bg-text-primary text-white dark:bg-white dark:text-black' : 'hover:bg-accent hover:border-accent hover:text-white'}`}
+                      >
+                        {p}
+                      </button>
+                    ))}
+                    <button
+                      onClick={() => setParam('page', page + 1)}
+                      disabled={page >= totalPages}
+                      className="btn-secondary disabled:opacity-40"
+                    >
+                      NEXT
+                    </button>
+                  </div>
+                )}
               </div>
             )}
-          </>
-        )}
+          </div>
+
+          {/* Sidebar */}
+          <aside className="w-full md:w-80 flex-shrink-0 bg-surface dark:bg-surface-dark border-b-4 md:border-b-0 border-text-primary dark:border-white">
+            <div className="p-8 border-b-4 border-text-primary dark:border-white bg-accent text-white">
+              <span className="font-black text-black text-xl mb-2 block">04.</span>
+              <h2 className="text-3xl font-black uppercase tracking-tighter">INDEX</h2>
+            </div>
+            <div className="p-8 swiss-dots h-full min-h-[500px]">
+              <div className="flex flex-col gap-4">
+                <button
+                  onClick={() => setParam('category', '')}
+                  className={`text-left font-bold uppercase tracking-widest text-xl p-4 border-2 border-text-primary dark:border-white transition-colors ${!category ? 'bg-text-primary text-white dark:bg-white dark:text-black' : 'bg-surface dark:bg-surface-dark hover:bg-accent hover:border-accent hover:text-white'}`}
+                >
+                  00. ALL
+                </button>
+                {categories.map((cat, i) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setParam('category', cat.id)}
+                    className={`text-left font-bold uppercase tracking-widest text-xl p-4 border-2 border-text-primary dark:border-white transition-colors ${category === String(cat.id) ? 'bg-text-primary text-white dark:bg-white dark:text-black' : 'bg-surface dark:bg-surface-dark hover:bg-accent hover:border-accent hover:text-white'}`}
+                  >
+                    {CATEGORIES_ICONS[i % CATEGORIES_ICONS.length]} {cat.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </aside>
+        </div>
       </div>
     </div>
   );

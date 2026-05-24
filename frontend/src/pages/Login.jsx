@@ -9,17 +9,17 @@ export default function Login() {
   const { login, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || '/dashboard';
+  const from = location.state?.from?.pathname || '/';
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [errors, setErrors] = useState({});
 
   const validate = () => {
     const newErrors = {};
-    if (!form.email) newErrors.email = 'Email is required';
-    else if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = 'Email is invalid';
+    if (!form.email) newErrors.email = 'EMAIL IS REQUIRED';
+    else if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = 'EMAIL IS INVALID';
     
-    if (!form.password) newErrors.password = 'Password is required';
+    if (!form.password) newErrors.password = 'PASSWORD IS REQUIRED';
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -40,7 +40,7 @@ export default function Login() {
     
     const result = await login(form.email, form.password);
     if (result.success) {
-      toast.success('Welcome back!');
+      toast.success('WELCOME BACK');
       navigate(from, { replace: true });
     } else {
       setError(result.error);
@@ -48,34 +48,31 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-bg dark:bg-bg-dark flex items-center justify-center px-4 py-16">
+    <div className="min-h-[calc(100vh-64px)] bg-bg dark:bg-bg-dark flex items-center justify-center p-4 swiss-noise">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="w-full max-w-md"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.2 }}
+        className="w-full max-w-lg border-4 border-text-primary dark:border-white bg-surface dark:bg-surface-dark shadow-[16px_16px_0px_0px_var(--tw-shadow-color)] shadow-accent"
       >
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2 font-serif font-bold text-2xl text-text-primary dark:text-white">
-            <BookOpen size={26} className="text-accent" />
-            Blogify
+        <div className="border-b-4 border-text-primary dark:border-white p-8 bg-muted dark:bg-[#111] flex flex-col items-center">
+          <Link to="/" className="inline-flex items-center justify-center w-16 h-16 bg-text-primary text-white dark:bg-white dark:text-black mb-6">
+            <BookOpen size={32} />
           </Link>
-          <h1 className="mt-4 text-2xl font-bold text-text-primary dark:text-white">Welcome back</h1>
-          <p className="text-text-secondary dark:text-gray-400 mt-1 text-sm">Sign in to your account</p>
+          <h1 className="text-4xl font-black text-text-primary dark:text-white uppercase tracking-tighter">AUTHENTICATE</h1>
+          <p className="text-text-secondary dark:text-gray-400 mt-2 font-bold uppercase tracking-widest text-sm">SYSTEM ACCESS REQUIRED</p>
         </div>
 
-        {/* Card */}
-        <div className="card p-8">
+        <div className="p-8 md:p-12">
           {error && (
-            <div className="mb-5 p-3 bg-red-50 border border-red-200 rounded-btn text-sm text-red-600 dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
+            <div className="mb-8 p-4 bg-accent text-white font-bold uppercase tracking-widest text-sm border-4 border-text-primary dark:border-white text-center">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5" id="login-form">
+          <form onSubmit={handleSubmit} className="space-y-8" id="login-form">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-text-primary dark:text-white mb-1.5">Email</label>
+              <label htmlFor="email" className="block text-sm font-bold uppercase tracking-widest text-text-primary dark:text-white mb-2">01. EMAIL</label>
               <input
                 id="email"
                 name="email"
@@ -83,14 +80,14 @@ export default function Login() {
                 autoComplete="email"
                 value={form.email}
                 onChange={handleChange}
-                placeholder="you@example.com"
-                className={`input ${errors.email ? 'border-red-500 focus:ring-red-500' : ''}`}
+                placeholder="USER@DOMAIN.COM"
+                className={`input text-lg font-bold uppercase ${errors.email ? 'border-accent text-accent' : ''}`}
               />
-              {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
+              {errors.email && <p className="mt-2 text-xs font-bold uppercase tracking-widest text-accent">{errors.email}</p>}
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-text-primary dark:text-white mb-1.5">Password</label>
+              <label htmlFor="password" className="block text-sm font-bold uppercase tracking-widest text-text-primary dark:text-white mb-2">02. PASSWORD</label>
               <input
                 id="password"
                 name="password"
@@ -99,25 +96,25 @@ export default function Login() {
                 value={form.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className={`input ${errors.password ? 'border-red-500 focus:ring-red-500' : ''}`}
+                className={`input text-lg font-bold ${errors.password ? 'border-accent text-accent' : ''}`}
               />
-              {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password}</p>}
+              {errors.password && <p className="mt-2 text-xs font-bold uppercase tracking-widest text-accent">{errors.password}</p>}
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full flex items-center justify-center gap-2 py-3"
+              className="btn-primary w-full flex items-center justify-center gap-2 py-4"
               id="login-submit"
             >
-              {loading ? <Loader2 size={18} className="animate-spin" /> : null}
-              Sign in
+              {loading ? <Loader2 size={24} className="animate-spin" /> : null}
+              GRANT ACCESS
             </button>
           </form>
 
-          <p className="text-center text-sm text-text-secondary dark:text-gray-400 mt-6">
-            Don't have an account?{' '}
-            <Link to="/register" className="text-accent font-medium hover:underline">Create one</Link>
+          <p className="text-center text-sm font-bold uppercase tracking-widest text-text-secondary dark:text-gray-400 mt-8">
+            NO ACCOUNT?{' '}
+            <Link to="/register" className="text-text-primary dark:text-white hover:text-accent transition-colors border-b-2 border-current">CREATE ONE</Link>
           </p>
         </div>
       </motion.div>

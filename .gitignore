@@ -1,0 +1,50 @@
+# ===== Python / FastAPI =====
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+.eggs/
+*.log
+*.sqlite
+*.db
+instance/
+.webassets-cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Alembic
+alembic/versions/*.pyc
+
+# ===== Node / React =====
+node_modules/
+dist/
+.next/
+out/
+.cache/
+*.tsbuildinfo
+
+# ===== Environment =====
+.env
+.env.local
+.env.*.local
+.env.production
+
+# ===== IDE =====
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ===== Uploads =====
+uploads/
+media/

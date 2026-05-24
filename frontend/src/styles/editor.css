@@ -1,0 +1,16 @@
+.tiptap p.is-editor-empty:first-child::before {
+  color: #9CA3AF;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.dark .tiptap p.is-editor-empty:first-child::before {
+  color: #6B7280;
+}
+
+/* Remove default focus outline on the editor content */
+.ProseMirror:focus {
+  outline: none;
+}

@@ -13,6 +13,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Register from './pages/Register';
+import Bookmarks from './pages/Bookmarks';
 import { AdminRoute, ProtectedRoute } from './routes/ProtectedRoute';
 
 export default function App() {
@@ -36,6 +37,7 @@ export default function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/create-post" element={<CreatePost />} />
                 <Route path="/edit-post/:id" element={<EditPost />} />
+                <Route path="/bookmarks" element={<Bookmarks />} />
               </Route>
 
               {/* Admin routes */}
