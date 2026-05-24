@@ -3,13 +3,13 @@ from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from app.auth.dependencies import get_current_admin
-from app.database.database import get_db
-from app.models.comment import Comment
-from app.models.post import Post
-from app.models.user import User
-from app.schemas.user import UserResponse
-from app.services import post_service, user_service
+from backend.app.auth.dependencies import get_current_admin
+from backend.app.database.database import get_db
+from backend.app.models.comment import Comment
+from backend.app.models.post import Post
+from backend.app.models.user import User
+from backend.app.schemas.user import UserResponse
+from backend.app.services import post_service, user_service
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, Depends
-from app.auth.dependencies import get_current_user
-from app.services.upload_service import handle_upload
-from app.config.settings import settings
+from backend.app.auth.dependencies import get_current_user
+from backend.app.services.upload_service import handle_upload
+from backend.app.config.settings import settings
 
 router = APIRouter(prefix="/uploads", tags=["Uploads"])
 

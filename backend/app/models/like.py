@@ -1,7 +1,7 @@
 from sqlalchemy import Column, ForeignKey, Integer, UniqueConstraint
 from sqlalchemy.orm import relationship
 
-from app.database.database import Base
+from backend.app.database.database import Base
 
 
 class Like(Base):

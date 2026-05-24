@@ -1,5 +1,5 @@
 import pytest
-from app.models.category import Category
+from backend.app.models.category import Category
 
 @pytest.fixture
 def test_category(db):

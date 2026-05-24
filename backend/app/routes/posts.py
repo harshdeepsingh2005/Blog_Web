@@ -3,11 +3,11 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
-from app.auth.dependencies import get_current_user
-from app.database.database import get_db
-from app.models.user import User
-from app.schemas.post import PostCreate, PostResponse, PostUpdate
-from app.services import post_service
+from backend.app.auth.dependencies import get_current_user
+from backend.app.database.database import get_db
+from backend.app.models.user import User
+from backend.app.schemas.post import PostCreate, PostResponse, PostUpdate
+from backend.app.services import post_service
 
 router = APIRouter(prefix="/posts", tags=["Posts"])
 

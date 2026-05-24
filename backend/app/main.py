@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.config.settings import settings
-from app.database.database import Base, SessionLocal, engine
-from app.models import *  # noqa: F401,F403 — ensure all models registered before create_all
-from app.routes import admin, auth, categories, comments, likes, posts, users, uploads, bookmarks, notifications
-from app.services.category_service import seed_categories
+from backend.app.config.settings import settings
+from backend.app.database.database import Base, SessionLocal, engine
+from backend.app.models import *  # noqa: F401,F403 — ensure all models registered before create_all
+from backend.app.routes import admin, auth, categories, comments, likes, posts, users, uploads, bookmarks, notifications
+from backend.app.services.category_service import seed_categories
 
 # ── Create tables ──────────────────────────────────────────────────────────────
 Base.metadata.create_all(bind=engine)

@@ -4,11 +4,11 @@ from fastapi import HTTPException, status
 from sqlalchemy import func, or_
 from sqlalchemy.orm import Session, joinedload
 
-from app.models.comment import Comment
-from app.models.like import Like
-from app.models.post import Post
-from app.models.user import User
-from app.schemas.post import PostCreate, PostUpdate
+from backend.app.models.comment import Comment
+from backend.app.models.like import Like
+from backend.app.models.post import Post
+from backend.app.models.user import User
+from backend.app.schemas.post import PostCreate, PostUpdate
 
 
 def get_posts(

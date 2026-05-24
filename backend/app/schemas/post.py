@@ -3,7 +3,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from app.schemas.user import UserResponse
+from backend.app.schemas.user import UserResponse
 
 
 class CategoryInfo(BaseModel):
