@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str
     # Deployment URLs
     BASE_URL: str = "http://localhost:8000"
-    CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost:3000"]
+    CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost:3000", "https://blogify-objective.vercel.app"]
 
     # Use 'backend/.env' since we are running the app from the root directory
     model_config = SettingsConfigDict(env_file="backend/.env", extra="ignore")
