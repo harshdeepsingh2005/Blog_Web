@@ -1,8 +1,13 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
+<<<<<<< HEAD
 from app.models.user import User
 from app.schemas.user import UserUpdate
+=======
+from backend.app.models.user import User
+from backend.app.schemas.user import UserUpdate
+>>>>>>> origin/main
 
 
 def get_user_by_id(user_id: int, db: Session) -> User:

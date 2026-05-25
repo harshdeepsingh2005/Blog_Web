@@ -2,8 +2,13 @@ from fastapi import HTTPException, status
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+<<<<<<< HEAD
 from app.models.like import Like
 from app.models.user import User
+=======
+from backend.app.models.like import Like
+from backend.app.models.user import User
+>>>>>>> origin/main
 
 
 def toggle_like(post_id: int, current_user: User, db: Session) -> dict:
@@ -22,8 +27,13 @@ def toggle_like(post_id: int, current_user: User, db: Session) -> dict:
         try:
             db.commit()
             
+<<<<<<< HEAD
             from app.models.post import Post
             from app.models.notification import Notification
+=======
+            from backend.app.models.post import Post
+            from backend.app.models.notification import Notification
+>>>>>>> origin/main
             
             post = db.query(Post).filter(Post.id == post_id).first()
             if post and post.author_id != current_user.id:

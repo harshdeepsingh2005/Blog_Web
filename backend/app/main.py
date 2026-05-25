@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.config.settings import settings
-from app.database.database import Base, SessionLocal, engine
-from app.models import *  # noqa: F401,F403 — ensure all models registered before create_all
-from app.routes import admin, auth, categories, comments, likes, posts, users, uploads, bookmarks, notifications
-from app.services.category_service import seed_categories
+from backend.app.config.settings import settings
+from backend.app.database.database import Base, SessionLocal, engine
+from backend.app.models import *  # noqa: F401,F403 — ensure all models registered before create_all
+from backend.app.routes import admin, auth, categories, comments, likes, posts, users, uploads, bookmarks, notifications
+from backend.app.services.category_service import seed_categories
 
 # ── Create tables ──────────────────────────────────────────────────────────────
 Base.metadata.create_all(bind=engine)
@@ -27,7 +27,7 @@ app = FastAPI(
 # ── CORS middleware ────────────────────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=settings.CORS_ORIGINS + ["https://blogify-objective.vercel.app", "https://blogify-harsh.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -52,6 +52,17 @@ import os
 os.makedirs("uploads", exist_ok=True)
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
+
+# Temporary route to seed production database remotely
+@app.post("/api/seed")
+def seed_database():
+    try:
+        from backend.seed import seed_db
+        seed_db()
+        return {"message": "Database seeded successfully!"}
+    except Exception as e:
+        import traceback
+        return {"error": str(e), "traceback": traceback.format_exc()}
 
 @app.get("/")
 def health_check():

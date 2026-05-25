@@ -3,7 +3,11 @@ from typing import Optional
 
 from jose import JWTError, jwt
 
+<<<<<<< HEAD
 from app.config.settings import settings
+=======
+from backend.app.config.settings import settings
+>>>>>>> origin/main
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:

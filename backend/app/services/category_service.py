@@ -2,7 +2,11 @@ from typing import List
 
 from sqlalchemy.orm import Session
 
+<<<<<<< HEAD
 from app.models.category import Category
+=======
+from backend.app.models.category import Category
+>>>>>>> origin/main
 
 
 def get_all_categories(db: Session) -> List[Category]:

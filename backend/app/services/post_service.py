@@ -4,11 +4,19 @@ from fastapi import HTTPException, status
 from sqlalchemy import func, or_
 from sqlalchemy.orm import Session, joinedload
 
+<<<<<<< HEAD
 from app.models.comment import Comment
 from app.models.like import Like
 from app.models.post import Post
 from app.models.user import User
 from app.schemas.post import PostCreate, PostUpdate
+=======
+from backend.app.models.comment import Comment
+from backend.app.models.like import Like
+from backend.app.models.post import Post
+from backend.app.models.user import User
+from backend.app.schemas.post import PostCreate, PostUpdate
+>>>>>>> origin/main
 
 
 def get_posts(
@@ -37,7 +45,17 @@ def get_posts(
         query = query.filter(Post.category_id == category_id)
 
     if sort_by == "popular":
+<<<<<<< HEAD
         query = query.outerjoin(Like).group_by(Post.id).order_by(func.count(Like.id).desc())
+=======
+        likes_subq = (
+            db.query(func.count(Like.id))
+            .filter(Like.post_id == Post.id)
+            .correlate(Post)
+            .scalar_subquery()
+        )
+        query = query.order_by(likes_subq.desc(), Post.created_at.desc())
+>>>>>>> origin/main
     else:
         query = query.order_by(Post.created_at.desc())
 
