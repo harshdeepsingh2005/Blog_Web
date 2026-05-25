@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import toast from 'react-hot-toast';
 
-export default function LikeButton({ postId, initialCount = 0, initialLiked = false }) {
+export default function LikeButton({ postId, initialCount = 0, initialLiked = false, className }) {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [liked, setLiked] = useState(initialLiked);
@@ -53,11 +53,11 @@ export default function LikeButton({ postId, initialCount = 0, initialLiked = fa
     <button
       onClick={handleToggle}
       id={`like-btn-${postId}`}
-      className={`flex items-center gap-2 px-4 py-2 rounded-btn text-sm font-medium transition-all duration-200 ${
+      className={`flex items-center gap-3 px-6 py-3 rounded-none text-sm font-bold uppercase tracking-widest transition-colors duration-150 border-2 ${
         liked
-          ? 'bg-red-50 text-red-500 border border-red-200 dark:bg-red-900/20 dark:border-red-800'
-          : 'btn-secondary'
-      }`}
+          ? 'bg-accent text-white border-accent'
+          : 'bg-surface text-text-primary border-text-primary hover:bg-text-primary hover:text-white dark:bg-surface-dark dark:text-white dark:border-white dark:hover:bg-white dark:hover:text-black'
+      } ${className || ''}`}
       aria-label={liked ? 'Unlike post' : 'Like post'}
     >
       <AnimatePresence mode="wait">

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useDarkMode } from '../hooks/useDarkMode';
+import NotificationsDropdown from './NotificationsDropdown';
 
 export default function Navbar() {
   const { isAuthenticated, user, isAdmin, logout } = useAuth();
@@ -18,25 +19,24 @@ export default function Navbar() {
   };
 
   const navLinkClass = ({ isActive }) =>
-    `text-sm font-medium transition-colors duration-200 ${
-      isActive ? 'text-accent' : 'text-text-secondary hover:text-text-primary dark:text-gray-400 dark:hover:text-white'
+    `text-sm font-bold uppercase tracking-widest transition-colors duration-150 ${
+      isActive ? 'text-accent border-b-2 border-accent' : 'text-text-primary hover:text-accent dark:text-white dark:hover:text-accent'
     }`;
 
   return (
     <nav className="navbar">
       <div className="max-w-content mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 font-serif font-bold text-xl text-text-primary dark:text-white">
-          <BookOpen size={22} className="text-accent" />
-          <span>Blogify</span>
+        <Link to="/" className="flex items-center gap-3 font-sans font-black tracking-tighter text-2xl text-text-primary dark:text-white uppercase">
+          <div className="bg-text-primary dark:bg-white text-white dark:text-black p-1">
+            <BookOpen size={24} />
+          </div>
+          <span>BLOGIFY</span>
         </Link>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-6">
           <NavLink to="/" className={navLinkClass} end>Home</NavLink>
-          {isAuthenticated && (
-            <NavLink to="/dashboard" className={navLinkClass}>Dashboard</NavLink>
-          )}
           {isAdmin && (
             <NavLink to="/admin" className={navLinkClass}>Admin</NavLink>
           )}
@@ -55,36 +55,33 @@ export default function Navbar() {
 
           {isAuthenticated ? (
             <div className="flex items-center gap-3">
-              <Link to="/create-post" className="btn-primary flex items-center gap-1.5 text-sm">
+              <Link to="/create-post" className="btn-primary flex items-center gap-1.5 text-xs py-2 px-4">
                 <PenLine size={15} />
-                Write
+                WRITE
               </Link>
-              <button className="btn-ghost p-2 rounded-full relative" aria-label="Notifications" title="Notifications (Coming soon)">
-                <Bell size={18} />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-bg dark:border-bg-dark"></span>
-              </button>
+              <NotificationsDropdown />
               <Link
                 to={`/profile/${user?.id}`}
-                className="flex items-center gap-2 btn-ghost px-3 py-2 rounded-btn text-sm"
+                className="flex items-center gap-2 btn-ghost px-3 py-2 text-sm border-l-2 border-r-2"
                 id="profile-link"
               >
                 {user?.avatar ? (
-                  <img src={user.avatar} alt={user.username} className="w-7 h-7 rounded-full object-cover" />
+                  <img src={user.avatar} alt={user.username} className="w-8 h-8 rounded-none object-cover border-2 border-black dark:border-white" />
                 ) : (
-                  <div className="w-7 h-7 rounded-full bg-accent-light flex items-center justify-center">
-                    <User size={14} className="text-accent" />
+                  <div className="w-8 h-8 rounded-none bg-text-primary dark:bg-white flex items-center justify-center border-2 border-black dark:border-white">
+                    <User size={16} className="text-white dark:text-black" />
                   </div>
                 )}
-                <span className="font-medium">{user?.username}</span>
+                <span className="font-bold uppercase tracking-wider">{user?.username}</span>
               </Link>
-              <button onClick={handleLogout} className="btn-ghost p-2 rounded-full" aria-label="Logout" id="logout-btn">
+              <button onClick={handleLogout} className="btn-ghost p-2" aria-label="Logout" id="logout-btn">
                 <LogOut size={18} />
               </button>
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <Link to="/login" className="btn-ghost text-sm">Sign in</Link>
-              <Link to="/register" className="btn-primary text-sm">Get started</Link>
+              <Link to="/login" className="btn-ghost text-xs">SIGN IN</Link>
+              <Link to="/register" className="btn-primary text-xs py-2 px-4">GET STARTED</Link>
             </div>
           )}
         </div>
@@ -112,7 +109,6 @@ export default function Navbar() {
               <NavLink to="/" className={navLinkClass} end onClick={() => setMobileOpen(false)}>Home</NavLink>
               {isAuthenticated && (
                 <>
-                  <NavLink to="/dashboard" className={navLinkClass} onClick={() => setMobileOpen(false)}>Dashboard</NavLink>
                   <NavLink to="/create-post" className={navLinkClass} onClick={() => setMobileOpen(false)}>Write</NavLink>
                   <NavLink to={`/profile/${user?.id}`} className={navLinkClass} onClick={() => setMobileOpen(false)}>Profile</NavLink>
                   {isAdmin && <NavLink to="/admin" className={navLinkClass} onClick={() => setMobileOpen(false)}>Admin</NavLink>}

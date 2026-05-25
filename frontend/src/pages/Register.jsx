@@ -14,16 +14,16 @@ export default function Register() {
 
   const validate = () => {
     const newErrors = {};
-    if (!form.username) newErrors.username = 'Username is required';
-    else if (form.username.length < 3) newErrors.username = 'Username must be at least 3 characters';
+    if (!form.username) newErrors.username = 'USERNAME IS REQUIRED';
+    else if (form.username.length < 3) newErrors.username = 'MIN 3 CHARACTERS';
     
-    if (!form.email) newErrors.email = 'Email is required';
-    else if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = 'Email is invalid';
+    if (!form.email) newErrors.email = 'EMAIL IS REQUIRED';
+    else if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = 'EMAIL IS INVALID';
     
-    if (!form.password) newErrors.password = 'Password is required';
-    else if (form.password.length < 6) newErrors.password = 'Password must be at least 6 characters';
+    if (!form.password) newErrors.password = 'PASSWORD IS REQUIRED';
+    else if (form.password.length < 6) newErrors.password = 'MIN 6 CHARACTERS';
     
-    if (form.password !== form.confirm) newErrors.confirm = 'Passwords do not match';
+    if (form.password !== form.confirm) newErrors.confirm = 'PASSWORDS DO NOT MATCH';
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -44,72 +44,74 @@ export default function Register() {
     
     const result = await register(form.username, form.email, form.password);
     if (result.success) {
-      toast.success('Account created! Please sign in.');
+      toast.success('ACCOUNT CREATED. PLEASE AUTHENTICATE.');
       navigate('/login');
     } else {
-      setError(Array.isArray(result.error) ? result.error.map(e => e.msg).join(', ') : result.error);
+      setError(Array.isArray(result.error) ? result.error.map(err => err.msg).join(', ') : result.error);
     }
   };
 
   return (
-    <div className="min-h-screen bg-bg dark:bg-bg-dark flex items-center justify-center px-4 py-16">
+    <div className="min-h-[calc(100vh-64px)] bg-bg dark:bg-bg-dark flex items-center justify-center p-4 swiss-noise">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="w-full max-w-md"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.2 }}
+        className="w-full max-w-lg border-4 border-text-primary dark:border-white bg-surface dark:bg-surface-dark shadow-[16px_16px_0px_0px_var(--tw-shadow-color)] shadow-accent"
       >
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2 font-serif font-bold text-2xl text-text-primary dark:text-white">
-            <BookOpen size={26} className="text-accent" />
-            Blogify
+        <div className="border-b-4 border-text-primary dark:border-white p-8 bg-muted dark:bg-[#111] flex flex-col items-center">
+          <Link to="/" className="inline-flex items-center justify-center w-16 h-16 bg-text-primary text-white dark:bg-white dark:text-black mb-6">
+            <BookOpen size={32} />
           </Link>
-          <h1 className="mt-4 text-2xl font-bold text-text-primary dark:text-white">Create your account</h1>
-          <p className="text-text-secondary dark:text-gray-400 mt-1 text-sm">Join the community of creators</p>
+          <h1 className="text-4xl font-black text-text-primary dark:text-white uppercase tracking-tighter">INITIALIZE</h1>
+          <p className="text-text-secondary dark:text-gray-400 mt-2 font-bold uppercase tracking-widest text-sm">CREATE SYSTEM ACCOUNT</p>
         </div>
 
-        <div className="card p-8">
+        <div className="p-8 md:p-12">
           {error && (
-            <div className="mb-5 p-3 bg-red-50 border border-red-200 rounded-btn text-sm text-red-600 dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
+            <div className="mb-8 p-4 bg-accent text-white font-bold uppercase tracking-widest text-sm border-4 border-text-primary dark:border-white text-center">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5" id="register-form">
+          <form onSubmit={handleSubmit} className="space-y-8" id="register-form">
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-text-primary dark:text-white mb-1.5">Username</label>
+              <label htmlFor="username" className="block text-sm font-bold uppercase tracking-widest text-text-primary dark:text-white mb-2">01. USERNAME</label>
               <input id="username" name="username" type="text" maxLength={50}
-                value={form.username} onChange={handleChange} placeholder="yourname" className={`input ${errors.username ? 'border-red-500 focus:ring-red-500' : ''}`} />
-              {errors.username && <p className="mt-1 text-xs text-red-500">{errors.username}</p>}
+                value={form.username} onChange={handleChange} placeholder="ALIAS" className={`input text-lg font-bold uppercase ${errors.username ? 'border-accent text-accent' : ''}`} />
+              {errors.username && <p className="mt-2 text-xs font-bold uppercase tracking-widest text-accent">{errors.username}</p>}
             </div>
+            
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-text-primary dark:text-white mb-1.5">Email</label>
+              <label htmlFor="email" className="block text-sm font-bold uppercase tracking-widest text-text-primary dark:text-white mb-2">02. EMAIL</label>
               <input id="email" name="email" type="email"
-                value={form.email} onChange={handleChange} placeholder="you@example.com" className={`input ${errors.email ? 'border-red-500 focus:ring-red-500' : ''}`} />
-              {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
+                value={form.email} onChange={handleChange} placeholder="USER@DOMAIN.COM" className={`input text-lg font-bold uppercase ${errors.email ? 'border-accent text-accent' : ''}`} />
+              {errors.email && <p className="mt-2 text-xs font-bold uppercase tracking-widest text-accent">{errors.email}</p>}
             </div>
+            
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-text-primary dark:text-white mb-1.5">Password</label>
+              <label htmlFor="password" className="block text-sm font-bold uppercase tracking-widest text-text-primary dark:text-white mb-2">03. PASSWORD</label>
               <input id="password" name="password" type="password"
-                value={form.password} onChange={handleChange} placeholder="Min 6 characters" className={`input ${errors.password ? 'border-red-500 focus:ring-red-500' : ''}`} />
-              {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password}</p>}
+                value={form.password} onChange={handleChange} placeholder="••••••••" className={`input text-lg font-bold ${errors.password ? 'border-accent text-accent' : ''}`} />
+              {errors.password && <p className="mt-2 text-xs font-bold uppercase tracking-widest text-accent">{errors.password}</p>}
             </div>
+            
             <div>
-              <label htmlFor="confirm" className="block text-sm font-medium text-text-primary dark:text-white mb-1.5">Confirm password</label>
+              <label htmlFor="confirm" className="block text-sm font-bold uppercase tracking-widest text-text-primary dark:text-white mb-2">04. CONFIRM</label>
               <input id="confirm" name="confirm" type="password"
-                value={form.confirm} onChange={handleChange} placeholder="Repeat your password" className={`input ${errors.confirm ? 'border-red-500 focus:ring-red-500' : ''}`} />
-              {errors.confirm && <p className="mt-1 text-xs text-red-500">{errors.confirm}</p>}
+                value={form.confirm} onChange={handleChange} placeholder="••••••••" className={`input text-lg font-bold ${errors.confirm ? 'border-accent text-accent' : ''}`} />
+              {errors.confirm && <p className="mt-2 text-xs font-bold uppercase tracking-widest text-accent">{errors.confirm}</p>}
             </div>
 
-            <button type="submit" disabled={loading} className="btn-primary w-full flex items-center justify-center gap-2 py-3" id="register-submit">
-              {loading ? <Loader2 size={18} className="animate-spin" /> : null}
-              Create account
+            <button type="submit" disabled={loading} className="btn-primary w-full flex items-center justify-center gap-2 py-4" id="register-submit">
+              {loading ? <Loader2 size={24} className="animate-spin" /> : null}
+              REGISTER ACCOUNT
             </button>
           </form>
 
-          <p className="text-center text-sm text-text-secondary dark:text-gray-400 mt-6">
-            Already have an account?{' '}
-            <Link to="/login" className="text-accent font-medium hover:underline">Sign in</Link>
+          <p className="text-center text-sm font-bold uppercase tracking-widest text-text-secondary dark:text-gray-400 mt-8">
+            ALREADY REGISTERED?{' '}
+            <Link to="/login" className="text-text-primary dark:text-white hover:text-accent transition-colors border-b-2 border-current">AUTHENTICATE</Link>
           </p>
         </div>
       </motion.div>

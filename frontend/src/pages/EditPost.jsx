@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import toast from 'react-hot-toast';
+import RichTextEditor from '../components/RichTextEditor';
+import ImageUploader from '../components/ImageUploader';
 
 export default function EditPost() {
   const { id } = useParams();
@@ -27,7 +29,7 @@ export default function EditPost() {
         });
         setCategories(catRes.data);
       })
-      .catch(() => { toast.error('Post not found'); navigate('/dashboard'); })
+      .catch(() => { toast.error('POST NOT FOUND'); navigate('/dashboard'); })
       .finally(() => setFetching(false));
   }, [id]);
 
@@ -42,54 +44,86 @@ export default function EditPost() {
         category_id: form.category_id ? parseInt(form.category_id) : null,
       };
       const { data } = await api.put(`/posts/${id}`, payload);
-      toast.success('Post updated!');
+      toast.success('POST UPDATED');
       navigate(`/posts/${data.data.id}`);
     } catch (err) {
-      toast.error(err.response?.data?.detail || 'Update failed');
+      toast.error(err.response?.data?.detail || 'UPDATE FAILED');
     } finally {
       setLoading(false);
     }
   };
 
-  if (fetching) return <div className="flex justify-center py-20"><Loader2 className="animate-spin text-accent" size={28} /></div>;
+  if (fetching) return <div className="flex justify-center py-32 bg-bg dark:bg-bg-dark min-h-screen"><Loader2 className="animate-spin text-accent" size={48} /></div>;
 
   return (
-    <div className="max-w-reading mx-auto px-6 py-12">
-      <h1 className="font-serif text-3xl font-bold text-text-primary dark:text-white mb-8">Edit post</h1>
-      <form onSubmit={handleSubmit} className="space-y-6" id="edit-post-form">
-        <div>
-          <label htmlFor="edit-title" className="block text-sm font-medium text-text-primary dark:text-white mb-1.5">Title *</label>
-          <input id="edit-title" name="title" type="text" required value={form.title} onChange={handleChange} className="input text-lg font-semibold" />
+    <div className="min-h-screen bg-bg dark:bg-bg-dark swiss-noise">
+      <div className="max-w-content mx-auto border-x-4 border-text-primary dark:border-white min-h-screen">
+        <div className="border-b-4 border-text-primary dark:border-white p-8 md:p-16 bg-muted dark:bg-[#111]">
+          <h1 className="font-sans text-5xl md:text-7xl font-black text-text-primary dark:text-white uppercase tracking-tighter mb-4">EDIT POST</h1>
+          <p className="text-xl font-bold uppercase tracking-widest text-text-secondary dark:text-gray-400">MODIFY YOUR SYSTEM RECORD.</p>
         </div>
-        <div>
-          <label htmlFor="edit-excerpt" className="block text-sm font-medium text-text-primary dark:text-white mb-1.5">Excerpt</label>
-          <input id="edit-excerpt" name="excerpt" type="text" value={form.excerpt} onChange={handleChange} className="input" />
-        </div>
-        <div>
-          <label htmlFor="edit-cover" className="block text-sm font-medium text-text-primary dark:text-white mb-1.5">Cover image URL</label>
-          <input id="edit-cover" name="cover_image" type="url" value={form.cover_image} onChange={handleChange} className="input" />
-          {form.cover_image && (
-            <img src={form.cover_image} alt="Cover preview" className="mt-2 rounded-card h-40 w-full object-cover" />
-          )}
-        </div>
-        <div>
-          <label htmlFor="edit-category" className="block text-sm font-medium text-text-primary dark:text-white mb-1.5">Category</label>
-          <select id="edit-category" name="category_id" value={form.category_id} onChange={handleChange} className="input">
-            <option value="">Select a category</option>
-            {categories.map((cat) => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
-          </select>
-        </div>
-        <div>
-          <label htmlFor="edit-content" className="block text-sm font-medium text-text-primary dark:text-white mb-1.5">Content *</label>
-          <textarea id="edit-content" name="content" required value={form.content} onChange={handleChange} rows={18} className="input resize-y" />
-        </div>
-        <div className="flex gap-3 justify-end pt-4 border-t border-border dark:border-border-dark">
-          <button type="button" onClick={() => navigate(-1)} className="btn-secondary">Cancel</button>
-          <button type="submit" disabled={loading} className="btn-primary flex items-center gap-2" id="update-btn">
-            {loading ? <Loader2 size={16} className="animate-spin" /> : null} Save changes
-          </button>
-        </div>
-      </form>
+
+        <form onSubmit={handleSubmit} className="flex flex-col" id="edit-post-form">
+          <div className="grid grid-cols-1 md:grid-cols-2 divide-y-4 md:divide-y-0 md:divide-x-4 divide-text-primary dark:divide-white border-b-4 border-text-primary dark:border-white">
+            <div className="p-8 md:p-16">
+              <label htmlFor="edit-title" className="block font-bold uppercase tracking-widest text-text-primary dark:text-white mb-4 text-xl">01. TITLE</label>
+              <input
+                id="edit-title" name="title" type="text" required
+                value={form.title} onChange={handleChange}
+                placeholder="ENTER TITLE..."
+                className="input text-2xl font-black uppercase tracking-tighter"
+              />
+            </div>
+
+            <div className="p-8 md:p-16">
+              <label htmlFor="edit-excerpt" className="block font-bold uppercase tracking-widest text-text-primary dark:text-white mb-4 text-xl">02. EXCERPT</label>
+              <input
+                id="edit-excerpt" name="excerpt" type="text"
+                value={form.excerpt} onChange={handleChange}
+                placeholder="SHORT SUMMARY..."
+                className="input text-lg font-bold"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 divide-y-4 md:divide-y-0 md:divide-x-4 divide-text-primary dark:divide-white border-b-4 border-text-primary dark:border-white">
+            <div className="p-8 md:p-16 bg-muted dark:bg-[#111]">
+              <label htmlFor="edit-category" className="block font-bold uppercase tracking-widest text-text-primary dark:text-white mb-4 text-xl">03. CATEGORY</label>
+              <select id="edit-category" name="category_id" value={form.category_id} onChange={handleChange} className="input font-bold uppercase tracking-widest">
+                <option value="">SELECT A CATEGORY</option>
+                {categories.map((cat) => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
+              </select>
+            </div>
+
+            <div className="p-8 md:p-16 bg-surface dark:bg-surface-dark">
+              <label htmlFor="edit-cover" className="block font-bold uppercase tracking-widest text-text-primary dark:text-white mb-4 text-xl">04. COVER IMAGE</label>
+              <ImageUploader
+                value={form.cover_image}
+                onChange={(url) => setForm(f => ({ ...f, cover_image: url }))}
+                label="UPLOAD COVER"
+              />
+            </div>
+          </div>
+
+          <div className="p-8 md:p-16 border-b-4 border-text-primary dark:border-white">
+            <label htmlFor="edit-content" className="block font-bold uppercase tracking-widest text-text-primary dark:text-white mb-6 text-xl">05. CONTENT</label>
+            <RichTextEditor
+              value={form.content}
+              onChange={(html) => setForm(f => ({ ...f, content: html }))}
+            />
+          </div>
+
+          <div className="flex flex-col sm:flex-row border-b-4 border-text-primary dark:border-white bg-surface dark:bg-surface-dark">
+            <button type="button" onClick={() => navigate(-1)} className="flex-1 p-8 text-center font-black text-2xl uppercase tracking-tighter hover:bg-text-primary hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors border-b-4 sm:border-b-0 sm:border-r-4 border-text-primary dark:border-white">
+              CANCEL
+            </button>
+            <button type="submit" disabled={loading} className="flex-1 p-8 flex justify-center items-center gap-4 text-center font-black text-2xl uppercase tracking-tighter bg-accent text-white hover:bg-white hover:text-accent transition-colors" id="update-btn">
+              {loading ? <Loader2 size={24} className="animate-spin" /> : null}
+              SAVE CHANGES
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
