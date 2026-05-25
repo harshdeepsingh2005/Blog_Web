@@ -1,6 +1,14 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
+<<<<<<< HEAD
+from app.config.settings import settings
+
+connect_args = {"check_same_thread": False} if settings.DATABASE_URL.startswith("sqlite") else {}
+
+engine = create_engine(
+    settings.DATABASE_URL,
+=======
 from backend.app.config.settings import settings
 
 # SQLAlchemy 1.4+ removed support for the 'postgres://' scheme
@@ -13,6 +21,7 @@ connect_args = {"check_same_thread": False} if db_url.startswith("sqlite") else 
 
 engine = create_engine(
     db_url,
+>>>>>>> origin/main
     connect_args=connect_args,
 )
 

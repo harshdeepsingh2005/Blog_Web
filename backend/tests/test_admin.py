@@ -1,6 +1,11 @@
 import pytest
+<<<<<<< HEAD
+from app.models.category import Category
+from app.models.post import Post
+=======
 from backend.app.models.category import Category
 from backend.app.models.post import Post
+>>>>>>> origin/main
 
 @pytest.fixture
 def test_admin_post(db, test_user):

@@ -1,10 +1,17 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
+<<<<<<< HEAD
+from app.auth.hashing import hash_password, verify_password
+from app.auth.jwt import create_access_token
+from app.models.user import User
+from app.schemas.auth import UserLogin, UserRegister
+=======
 from backend.app.auth.hashing import hash_password, verify_password
 from backend.app.auth.jwt import create_access_token
 from backend.app.models.user import User
 from backend.app.schemas.auth import UserLogin, UserRegister
+>>>>>>> origin/main
 
 
 def register_user(payload: UserRegister, db: Session) -> User:

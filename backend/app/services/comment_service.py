@@ -3,9 +3,15 @@ from typing import List
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session, joinedload
 
+<<<<<<< HEAD
+from app.models.comment import Comment
+from app.models.user import User
+from app.schemas.comment import CommentCreate
+=======
 from backend.app.models.comment import Comment
 from backend.app.models.user import User
 from backend.app.schemas.comment import CommentCreate
+>>>>>>> origin/main
 
 
 def get_post_comments(post_id: int, db: Session) -> List[Comment]:
@@ -29,8 +35,13 @@ def create_comment(payload: CommentCreate, current_user: User, db: Session) -> C
     db.add(comment)
     db.commit()
     db.refresh(comment)
+<<<<<<< HEAD
+    from app.models.post import Post
+    from app.models.notification import Notification
+=======
     from backend.app.models.post import Post
     from backend.app.models.notification import Notification
+>>>>>>> origin/main
     
     post = db.query(Post).filter(Post.id == payload.post_id).first()
     if post and post.author_id != current_user.id:

@@ -2,7 +2,11 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
+<<<<<<< HEAD
+from app.schemas.user import UserResponse
+=======
 from backend.app.schemas.user import UserResponse
+>>>>>>> origin/main
 
 
 class CommentCreate(BaseModel):

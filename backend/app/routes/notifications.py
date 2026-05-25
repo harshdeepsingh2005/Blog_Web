@@ -1,10 +1,17 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+<<<<<<< HEAD
+from app.auth.dependencies import get_current_user
+from app.database.database import get_db
+from app.models.notification import Notification
+from app.models.user import User
+=======
 from backend.app.auth.dependencies import get_current_user
 from backend.app.database.database import get_db
 from backend.app.models.notification import Notification
 from backend.app.models.user import User
+>>>>>>> origin/main
 
 router = APIRouter(prefix="/notifications", tags=["Notifications"])
 

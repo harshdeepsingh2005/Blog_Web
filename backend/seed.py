@@ -5,6 +5,16 @@ import datetime
 # Add the 'backend' directory to the Python path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+<<<<<<< HEAD
+from app.database.database import SessionLocal, Base, engine
+from app.models.user import User
+from app.models.post import Post
+from app.models.category import Category
+from app.models.comment import Comment
+from app.models.like import Like
+from app.models.bookmark import Bookmark
+from app.auth.hashing import hash_password
+=======
 from backend.app.database.database import SessionLocal, Base, engine
 from backend.app.models.user import User
 from backend.app.models.post import Post
@@ -13,6 +23,7 @@ from backend.app.models.comment import Comment
 from backend.app.models.like import Like
 from backend.app.models.bookmark import Bookmark
 from backend.app.auth.hashing import hash_password
+>>>>>>> origin/main
 
 def seed_db():
     print("Creating tables...")

@@ -1,7 +1,11 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
+<<<<<<< HEAD
+from app.database.database import Base
+=======
 from backend.app.database.database import Base
+>>>>>>> origin/main
 
 
 class Category(Base):
